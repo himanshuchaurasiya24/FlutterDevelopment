@@ -1,0 +1,70 @@
+// 1 currency_converter_projects_notes
+ Types of widgets
+	1. stateless -->data is immutable;
+	2. stateful
+	3. Inherited
+	state is the data that determines behaviour of the widget;
+	in an app we can only have one material app call;
+	material will have home
+	scafold will have body
+	body will have child
+	and child can be anything like text images
+	you can not put const on parent widget
+	constructor-> create State-> initstate-> didchange dependencies
+three tree are there in flutter
+	1. widget tree
+	2. element tree -> has copy of widget tree and every widget creates 				its own element and is is responsible for HOT 				RELOADING
+	3. render object tree
+renderobject widget is of three types
+	1: leafRender -> no child
+	2. singleChild -> one child -> coloredBox
+	3. multichild -> multi child -> Column
+container has padding and margin properties
+	so instead of wrapping it in padding widget we can use its padding and margin properties;
+in boxDecoration widget color is to mentioned and not in its parent widget this will givw error
+if color is already defined then shift it insidw the boxDecoration widget;
+useMaterial : true to remove shadow of app bar;
+
+-->	mediaquery to get the size of an screen on which it is being used;
+use instead of the following
+final size = mediaquery.sizeof(context) -->this will only listen to the 
+device screen size and nothing else;		
+final size = mediaquery.ofcontext.size;
+to get the width use size.width;
+var vlues can be re-assigned so make it const to use it in a widget;
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+to use singleChildScrollView if any expanded widget is defined wrap every expanded widget with singleChildScrollView and then wrap its parent widget with singleChildScrollView
+
+if a column is inside of the row use expanded to fix render error the child in row takes whole row width
+similarly if a row is inside of a column then use flex to fix render flow error the child in column takes whole height
+
+
+
+
+
+
+
+
+
+
+new windows 
+whenever there is a column inside a column use expanded to see it on screen
+always dispose the controller after the widget related to it is close because it remains in memory of it untill you dispose it using overriden dispose method and calling controllerName.dispose(); in it dispose method is only available in stateful widget.
+
+....whenever a widget is not showing on the screen wrap it with expanded because the widget may have the property to use as much space as possible; 
+....use map function to cast anylist into a different types of list
+
+
+	
+
+

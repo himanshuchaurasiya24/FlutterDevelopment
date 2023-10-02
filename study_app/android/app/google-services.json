@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "607600861665",
+    "project_id": "study-app-b2bbd",
+    "storage_bucket": "study-app-b2bbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607600861665:android:6047b5c8dbafb4855a72a0",
+        "android_client_info": {
+          "package_name": "com.example.study_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "607600861665-qe0r3j1mrinktguc43ve0bpih8j3tnrs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2M45p3MyYTiJeCy2gWc3z_24639OjTuk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "607600861665-qe0r3j1mrinktguc43ve0bpih8j3tnrs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "607600861665-e0qmeqe36op4dks6p7u4h5vis3gj56en.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.studyApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
