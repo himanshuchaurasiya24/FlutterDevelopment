@@ -26,6 +26,8 @@ class _ExpensesState extends State<Expenses> {
   ];
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+        isScrollControlled: true,
+        // isDismissible: false,
         context: context,
         builder: (cntx) => NewExpense(
               onAddExpense: _addExpense,
@@ -38,8 +40,28 @@ class _ExpensesState extends State<Expenses> {
     });
   }
 
+  void _removeExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = const Center(
+      child: Text(
+        'No Data To Display, Please Add One From The Top-Right + Icon',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    );
+    if (_registeredExpenses.isNotEmpty) {
+      mainContent = ExpensesList(
+          expenses: _registeredExpenses, onRemoveExpense: _removeExpense);
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -57,11 +79,7 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           const Text('The Chart'),
-          Expanded(
-            child: ExpensesList(
-              expenses: _registeredExpenses,
-            ),
-          ),
+          Expanded(child: mainContent),
         ],
       ),
     );
