@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/models/expense.dart' as category;
@@ -6,7 +6,8 @@ import 'package:expense_tracker/models/expense.dart' as category;
 final formatter = DateFormat.yMd();
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -57,10 +58,44 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
+  void _submitExpenseData() {
+    final enteredAmount = double.tryParse(_amountController.text);
+    final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
+    if (_titleController.text.trim().isEmpty ||
+        amountIsInvalid ||
+        selectedDate == null) {
+      // Error
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Invalid Input'),
+            content: const Text(
+                'Please make sure that you have entered valid amount, title & date'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Ok'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+    widget.onAddExpense(Expense(
+        title: _titleController.text.toString(),
+        amount: enteredAmount,
+        date: selectedDate!,
+        category: _selectedCategory));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         children: [
           NewExpenseTextField(
@@ -139,6 +174,7 @@ class _NewExpenseState extends State<NewExpense> {
               ElevatedButton(
                   onPressed: () {
                     //
+                    _submitExpenseData();
                   },
                   child: const Text('Save Expense'))
             ],
