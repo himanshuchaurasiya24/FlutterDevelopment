@@ -41,9 +41,24 @@ class _ExpensesState extends State<Expenses> {
   }
 
   void _removeExpense(Expense expense) {
+    final expenseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
       _registeredExpenses.remove(expense);
     });
+    ScaffoldMessenger.of(context).clearSnackBars(); // to clear all snackBasrs
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+        action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              setState(() {
+                _registeredExpenses.insert(expenseIndex, expense);
+              });
+            }),
+        content: const Text('Expense Deleted'),
+      ),
+    );
   }
 
   @override
@@ -63,6 +78,7 @@ class _ExpensesState extends State<Expenses> {
           expenses: _registeredExpenses, onRemoveExpense: _removeExpense);
     }
     return Scaffold(
+      // backgroundColor: kColorScheme.primaryContainer,
       appBar: AppBar(
         title: const Text(
           'Flutter Expense Tracker',
