@@ -8,6 +8,12 @@ var kdarkColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 5, 99, 125),
 );
 void main() {
+  // method 1 of ui enhancement is to lock the app in portrait mode only
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  //     .then((fn) {
+  //   // put runApp function here so that the app only gets started when it is locked in portrait mode...
+  // });
   runApp(
     MaterialApp(
       darkTheme: ThemeData.dark().copyWith(
@@ -53,5 +59,4 @@ void main() {
   );
 }
 
-// 120 finished and video 121 is on;
-// video stopped at 01:52 nodata text added;
+// section 6  finished 

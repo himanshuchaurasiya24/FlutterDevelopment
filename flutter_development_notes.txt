@@ -65,6 +65,51 @@ always dispose the controller after the widget related to it is close because it
 ....use map function to cast anylist into a different types of list
 
 
+
+-------------------------------------------------------------------------------------------
+Size Preference
+
+Column- height - as much as possible and width- as much as needed by children
+
+
+That is why it is important to wrap column inside of a widget that restricts device height like wrapping it in a scaffold widget which has max device height(space after displaying the app bar) and width;
+
+
+ SingleChildScrollView with bottom padding solves pixel overflow when keyboard shows up
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 
 

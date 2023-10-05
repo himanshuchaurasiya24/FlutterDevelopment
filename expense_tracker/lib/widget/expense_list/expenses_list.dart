@@ -15,27 +15,30 @@ class ExpensesList extends StatelessWidget {
             background: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Container(
+                  height: MediaQuery.of(context).size.height / 1000,
+                  width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.error,
+                    color:
+                        Theme.of(context).colorScheme.error.withOpacity(0.75),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Stack(
                     children: [
                       Positioned(
-                        top: 50,
+                        top: 30,
                         left: 30,
                         child: Icon(
                           Icons.delete_forever_outlined,
-                          size: 64,
+                          size: 32,
                         ),
                       ),
                       Positioned(
-                        top: 50,
+                        top: 30,
                         right: 30,
                         child: Icon(
                           Icons.delete_forever_outlined,
-                          size: 64,
+                          size: 32,
                         ),
                       ),
                     ],
