@@ -140,7 +140,7 @@ class _NewExpenseState extends State<NewExpense> {
                     inputType: TextInputType.emailAddress,
                   ),
                 const SizedBox(
-                  height: 24,
+                  height: 12,
                 ),
                 if (width >= 600)
                   Row(
