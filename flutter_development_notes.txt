@@ -79,6 +79,16 @@ That is why it is important to wrap column inside of a widget that restricts dev
 
 
 
+in stateless Widget while navigating you have to pass a context which is not globally available in stateless widget so to solve this pass BuildContext Context in the method in which the navigator is called which will pass the context ;
+
+
+ to enforce rounded corners in card widget use  
+clipBehavior: Clip.hardEdge,
+shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+these properties inside of the card widget 
+
 
 
 

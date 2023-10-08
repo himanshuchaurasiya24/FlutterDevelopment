@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/category.dart' as cat;
-import 'package:meals/screen/cat_id_screen.dart';
 
 class CategoryGridItem extends StatelessWidget {
-  const CategoryGridItem({required this.category, super.key});
+  const CategoryGridItem(
+      {required this.onSelectedCategory, required this.category, super.key});
   final cat.Category category;
+  final void Function() onSelectedCategory;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CatIdScreen(
-                      id: category.id,
-                      color: category.color,
-                    )));
-      },
+      onTap: onSelectedCategory,
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(16),
       child: Container(
