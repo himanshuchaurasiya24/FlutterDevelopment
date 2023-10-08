@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/screen/meal_item_details_screen.dart';
+import 'package:meals/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
   const MealItem({required this.meal, super.key});
   final Meal meal;
+  String get complexityText {
+    return meal.complexity.name[0] + meal.complexity.name.substring(1);
+  }
+
+  String get affordabilityText {
+    return meal.affordability.name[0] + meal.affordability.name.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -15,7 +25,18 @@ class MealItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return MealItemDetailsScreen(
+                  meal: meal,
+                  context: context,
+                );
+              },
+            ),
+          );
+        },
         child: Stack(
           children: [
             FadeInImage(
@@ -46,8 +67,25 @@ class MealItem extends StatelessWidget {
                     const SizedBox(
                       height: 12,
                     ),
-                    const Row(
-                      children: [],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MealItemTrait(
+                          iconData: Icons.schedule_outlined,
+                          label: '${meal.duration} min',
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        MealItemTrait(
+                            iconData: Icons.work, label: complexityText),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        MealItemTrait(
+                            iconData: Icons.money_outlined,
+                            label: affordabilityText),
+                      ],
                     )
                   ],
                 ),
