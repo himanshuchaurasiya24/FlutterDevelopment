@@ -38,6 +38,88 @@ class MealItemDetailsScreen extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
+            meal.isVegetarian
+                ? const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.circle_outlined,
+                        color: Colors.green,
+                      ),
+                      Text(
+                        'Veg',
+                        style: TextStyle(color: Colors.green, fontSize: 24),
+                      )
+                    ],
+                  )
+                : const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.circle_outlined,
+                        color: Colors.red,
+                      ),
+                      Text(
+                        'Non-Veg',
+                        style: TextStyle(color: Colors.red, fontSize: 24),
+                      )
+                    ],
+                  ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                meal.isGlutenFree
+                    ? const Row(
+                        children: [
+                          Text(
+                            'Gluten ',
+                            style: TextStyle(color: Colors.white, fontSize: 24),
+                          ),
+                          Icon(
+                            Icons.not_interested,
+                            color: Colors.red,
+                          )
+                        ],
+                      )
+                    : const Row(
+                        children: [
+                          Text(
+                            'Gluten ',
+                            style: TextStyle(color: Colors.white, fontSize: 24),
+                          ),
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          )
+                        ],
+                      ),
+                meal.isLactoseFree
+                    ? const Row(
+                        children: [
+                          Text(
+                            'Lactose ',
+                            style: TextStyle(color: Colors.white, fontSize: 24),
+                          ),
+                          Icon(
+                            Icons.not_interested,
+                            color: Colors.red,
+                          )
+                        ],
+                      )
+                    : const Row(
+                        children: [
+                          Text(
+                            'Lactose ',
+                            style: TextStyle(color: Colors.white, fontSize: 24),
+                          ),
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          )
+                        ],
+                      ),
+              ],
+            ),
             const Text(
               'Steps',
               style: TextStyle(
@@ -53,28 +135,6 @@ class MealItemDetailsScreen extends StatelessWidget {
                     .titleMedium!
                     .copyWith(fontSize: 24, color: Colors.white),
               ),
-            Row(
-              children: [
-                meal.isVegetarian
-                    ? const Icon(
-                        Icons.circle_outlined,
-                        color: Colors.green,
-                      )
-                    : const Icon(
-                        Icons.circle_outlined,
-                        color: Colors.red,
-                      ),
-                const SizedBox(
-                  width: 12,
-                ),
-                meal.isGlutenFree
-                    ? const Text('Gluten Free')
-                    : const Text('Gluten'),
-                meal.isLactoseFree
-                    ? const Text('Lactose Free')
-                    : const Text('Lactose'),
-              ],
-            )
           ],
         ),
       ),

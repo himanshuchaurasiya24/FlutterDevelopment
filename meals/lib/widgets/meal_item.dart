@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
-import 'package:meals/screen/meal_item_details_screen.dart';
 import 'package:meals/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({required this.meal, super.key});
+  const MealItem({required this.meal, super.key, required this.onSelectMeal});
   final Meal meal;
+  final void Function(BuildContext context, Meal meal) onSelectMeal;
   String get complexityText {
     return meal.complexity.name[0] + meal.complexity.name.substring(1);
   }
@@ -25,17 +25,22 @@ class MealItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: InkWell(
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return MealItemDetailsScreen(
-                  meal: meal,
-                  context: context,
-                );
-              },
-            ),
-          );
+        onTap:
+            //  () {
+            //   Navigator.of(context).push(
+            //     MaterialPageRoute(
+            //       builder: (context) {
+            //         // return MealItemDetailsScreen(
+            //         //   meal: meal,
+            //         //   context: context,
+            //         // );
+
+            //       },
+            //     ),
+            //   );
+            // },
+            () {
+          onSelectMeal(context, meal);
         },
         child: Stack(
           children: [
