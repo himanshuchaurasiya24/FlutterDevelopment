@@ -25,49 +25,41 @@ class MealItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: InkWell(
-        onTap:
-            //  () {
-            //   Navigator.of(context).push(
-            //     MaterialPageRoute(
-            //       builder: (context) {
-            //         // return MealItemDetailsScreen(
-            //         //   meal: meal,
-            //         //   context: context,
-            //         // );
-
-            //       },
-            //     ),
-            //   );
-            // },
-            () {
+        onTap: () {
           onSelectMeal(context, meal);
         },
         child: Stack(
           children: [
-            FadeInImage(
-              fit: BoxFit.cover,
-              height: 200,
-              width: double.infinity,
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(meal.imageUrl),
+            Hero(
+              tag: meal.imageUrl,
+              child: FadeInImage(
+                fit: BoxFit.cover,
+                height: 200,
+                width: double.infinity,
+                placeholder: MemoryImage(kTransparentImage),
+                image: NetworkImage(meal.imageUrl),
+              ),
             ),
             Positioned(
               bottom: 0,
               left: 0,
               right: 0,
               child: Container(
-                color: Colors.black54,
+                color: Colors.white54,
                 padding:
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 44),
                 child: Column(
                   children: [
-                    Text(
-                      meal.title, maxLines: 2, textAlign: TextAlign.center,
-                      softWrap: true, overflow: TextOverflow.ellipsis, //...
-                      style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                    Hero(
+                      tag: meal.title,
+                      child: Text(
+                        meal.title, maxLines: 2, textAlign: TextAlign.center,
+                        softWrap: true, overflow: TextOverflow.ellipsis, //...
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
                     ),
                     const SizedBox(
                       height: 12,

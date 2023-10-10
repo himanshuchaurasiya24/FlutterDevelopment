@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/providers/favorites_provider.dart';
+import 'package:meals/widgets/meal_item_trait.dart';
 
 class MealDetailsScreen extends ConsumerWidget {
   const MealDetailsScreen({
@@ -9,81 +10,124 @@ class MealDetailsScreen extends ConsumerWidget {
     super.key,
   });
   final Meal meal;
+  String get complexityText {
+    return meal.complexity.name[0] + meal.complexity.name.substring(1);
+  }
+
+  String get affordabilityText {
+    return meal.affordability.name[0] + meal.affordability.name.substring(1);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final favoritesMeals = ref.watch(favoritesMealsProvider);
+    final isFavorite = favoritesMeals.contains(meal);
     return Scaffold(
       appBar: AppBar(
-        title: Text(meal.title),
+        title: Hero(tag: meal.title, child: Text(meal.title)),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
-                onPressed: () {
-                  final wasAdded = ref
-                      .read(favoritesMealsProvider.notifier)
-                      .toggleMealFavoritesStatus(meal);
-                  ScaffoldMessenger.of(context).clearSnackBars();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(wasAdded
-                          ? 'Meal added as favorites'
-                          : 'Meal was removed'),
-                    ),
+              onPressed: () {
+                final wasAdded = ref
+                    .read(favoritesMealsProvider.notifier)
+                    .toggleMealFavoritesStatus(meal);
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(wasAdded
+                        ? 'Meal added as favorites'
+                        : 'Meal was removed'),
+                  ),
+                );
+              },
+              // icon: isFavorite
+              //     ? const Icon(
+              //         Icons.favorite,
+              //         color: Colors.red,
+              //       )
+              //     : const Icon(Icons.favorite_border_outlined),
+              icon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) {
+                  return RotationTransition(
+                    // turns: animation,
+                    // tween here is used to decide the rotation of the icon between a particular time
+                    turns: Tween(begin: 0.8, end: 1.0).animate(animation),
+                    child: child,
                   );
+                  // return SlideTransition(position: position)
                 },
-                icon: const Icon(Icons.favorite)),
+                child: isFavorite
+                    ? Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        key: ValueKey(isFavorite),
+                      )
+                    : Icon(
+                        Icons.favorite_border_outlined,
+                        key: ValueKey(isFavorite),
+                      ),
+              ),
+            ),
           )
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(
-              meal.imageUrl,
-              height: 300,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            Hero(
+              tag: meal.imageUrl,
+              child: Image.network(
+                meal.imageUrl,
+                height: 300,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(
               height: 14,
             ),
-            meal.isVegetarian
-                ? const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.circle_outlined,
-                        color: Colors.green,
-                      ),
-                      Text(
-                        'Veg',
-                        style: TextStyle(color: Colors.green, fontSize: 24),
-                      )
-                    ],
-                  )
-                : const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.circle_outlined,
-                        color: Colors.red,
-                      ),
-                      Text(
-                        'Non-Veg',
-                        style: TextStyle(color: Colors.red, fontSize: 24),
-                      )
-                    ],
-                  ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                meal.isVegetarian
+                    ? const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.circle_outlined,
+                            color: Colors.green,
+                            // size: 40,
+                          ),
+                          Text(
+                            'Veg',
+                            style: TextStyle(color: Colors.green, fontSize: 24),
+                          )
+                        ],
+                      )
+                    : const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.circle_outlined,
+                            color: Colors.red,
+                            size: 16,
+                          ),
+                          Text(
+                            'Non-Veg',
+                            style: TextStyle(color: Colors.red, fontSize: 24),
+                          )
+                        ],
+                      ),
                 meal.isGlutenFree
                     ? const Row(
                         children: [
                           Text(
                             'Gluten ',
-                            style: TextStyle(color: Colors.white, fontSize: 24),
+                            style:
+                                TextStyle(color: Colors.black54, fontSize: 24),
                           ),
                           Icon(
                             Icons.not_interested,
@@ -95,7 +139,8 @@ class MealDetailsScreen extends ConsumerWidget {
                         children: [
                           Text(
                             'Gluten ',
-                            style: TextStyle(color: Colors.white, fontSize: 24),
+                            style:
+                                TextStyle(color: Colors.black54, fontSize: 24),
                           ),
                           Icon(
                             Icons.check,
@@ -108,7 +153,8 @@ class MealDetailsScreen extends ConsumerWidget {
                         children: [
                           Text(
                             'Lactose ',
-                            style: TextStyle(color: Colors.white, fontSize: 24),
+                            style:
+                                TextStyle(color: Colors.black54, fontSize: 24),
                           ),
                           Icon(
                             Icons.not_interested,
@@ -120,7 +166,8 @@ class MealDetailsScreen extends ConsumerWidget {
                         children: [
                           Text(
                             'Lactose ',
-                            style: TextStyle(color: Colors.white, fontSize: 24),
+                            style:
+                                TextStyle(color: Colors.black54, fontSize: 24),
                           ),
                           Icon(
                             Icons.check,
@@ -129,6 +176,24 @@ class MealDetailsScreen extends ConsumerWidget {
                         ],
                       ),
               ],
+            ),
+            const SizedBox(
+              height: 7,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                MealItemTrait(
+                  iconData: Icons.schedule_outlined,
+                  label: '${meal.duration} min',
+                ),
+                MealItemTrait(iconData: (Icons.work), label: complexityText),
+                MealItemTrait(
+                    iconData: Icons.money_outlined, label: affordabilityText),
+              ],
+            ),
+            const SizedBox(
+              height: 14,
             ),
             Text(
               'Ingredients',

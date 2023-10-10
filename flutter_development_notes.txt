@@ -112,6 +112,10 @@ while using stateNotifier you are not allowed to edit exiting data in memory but
 in riverpod provider if we have a dynamic data we should use statenotifierprovider method and 
 
 
+Tween Widget is used in implicit animation to decide the animation between a particular time 
+
+to use image transition use hero widget as parent and pass the same tag to the other screen wrapped with hero
+
 
 
 
