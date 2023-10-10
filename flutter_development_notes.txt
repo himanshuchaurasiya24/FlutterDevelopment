@@ -91,8 +91,25 @@ these properties inside of the card widget
 
 
 
+in willPopScope widget on WillPopUp return the following...
+here pass return as false because we are doing it here by navigator but if we are saving data instead of popping like this we should return true;
+a copy of this is 
+onWillPop: () async {
+          // here pass return as false because we are doing it here by navigator but if we are saving data instead of popping like this we should return true;
+          Navigator.of(context).pop({
+            Filter.glutenFree: _glutenFreeFilterSet,
+            Filter.lactoseFree: _lactoseFreeFilterSet,
+            Filter.vegetrian: _vegetarianFilterSet,
+            Filter.vegan: _veganFilterSet,
+          });
+          return false;
+        },
 
 
+------------------------------------------------------------------------------------------------------------------------------------------
+while using stateNotifier you are not allowed to edit exiting data in memory but create a new one;
+
+in riverpod provider if we have a dynamic data we should use statenotifierprovider method and 
 
 
 
