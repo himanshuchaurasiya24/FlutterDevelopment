@@ -183,13 +183,22 @@ class MealDetailsScreen extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                MealItemTrait(
-                  iconData: Icons.schedule_outlined,
-                  label: '${meal.duration} min',
+                Hero(
+                  tag: meal.duration,
+                  child: MealItemTrait(
+                    iconData: Icons.schedule_outlined,
+                    label: '${meal.duration} min',
+                  ),
                 ),
-                MealItemTrait(iconData: (Icons.work), label: complexityText),
-                MealItemTrait(
-                    iconData: Icons.money_outlined, label: affordabilityText),
+                Hero(
+                    tag: meal.id,
+                    child: MealItemTrait(
+                        iconData: (Icons.work), label: complexityText)),
+                Hero(
+                  tag: meal.ingredients,
+                  child: MealItemTrait(
+                      iconData: Icons.money_outlined, label: affordabilityText),
+                ),
               ],
             ),
             const SizedBox(
