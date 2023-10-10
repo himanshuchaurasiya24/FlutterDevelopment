@@ -35,6 +35,88 @@ class MealDetailsScreen extends StatelessWidget {
             const SizedBox(
               height: 14,
             ),
+            meal.isVegetarian
+                ? const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.circle_outlined,
+                        color: Colors.green,
+                      ),
+                      Text(
+                        'Veg',
+                        style: TextStyle(color: Colors.green, fontSize: 24),
+                      )
+                    ],
+                  )
+                : const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.circle_outlined,
+                        color: Colors.red,
+                      ),
+                      Text(
+                        'Non-Veg',
+                        style: TextStyle(color: Colors.red, fontSize: 24),
+                      )
+                    ],
+                  ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                meal.isGlutenFree
+                    ? const Row(
+                        children: [
+                          Text(
+                            'Gluten ',
+                            style: TextStyle(color: Colors.white, fontSize: 24),
+                          ),
+                          Icon(
+                            Icons.not_interested,
+                            color: Colors.red,
+                          )
+                        ],
+                      )
+                    : const Row(
+                        children: [
+                          Text(
+                            'Gluten ',
+                            style: TextStyle(color: Colors.white, fontSize: 24),
+                          ),
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          )
+                        ],
+                      ),
+                meal.isLactoseFree
+                    ? const Row(
+                        children: [
+                          Text(
+                            'Lactose ',
+                            style: TextStyle(color: Colors.white, fontSize: 24),
+                          ),
+                          Icon(
+                            Icons.not_interested,
+                            color: Colors.red,
+                          )
+                        ],
+                      )
+                    : const Row(
+                        children: [
+                          Text(
+                            'Lactose ',
+                            style: TextStyle(color: Colors.white, fontSize: 24),
+                          ),
+                          Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          )
+                        ],
+                      ),
+              ],
+            ),
             Text(
               'Ingredients',
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
