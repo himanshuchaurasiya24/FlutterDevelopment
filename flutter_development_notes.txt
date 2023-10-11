@@ -119,11 +119,7 @@ to use image transition use hero widget as parent and pass the same tag to the o
 ------------------------------------------------------------------------------------------------------------------------------------------
 
 
-some other project notes down here 
-
-
-
-
+some other project notes down here ie
 
 
 
