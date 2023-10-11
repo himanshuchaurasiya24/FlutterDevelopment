@@ -116,6 +116,10 @@ Tween Widget is used in implicit animation to decide the animation between a par
 
 to use image transition use hero widget as parent and pass the same tag to the other screen wrapped with hero
 
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+some other project notes down here 
 
 
 
