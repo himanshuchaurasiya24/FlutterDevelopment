@@ -132,6 +132,9 @@ some other project notes down here ie
 
 
 
+Global key allows the build method to keep the internal state when the build method is rebuild;
+while working with the form only global key is something we usually require;
+
 
 
 
