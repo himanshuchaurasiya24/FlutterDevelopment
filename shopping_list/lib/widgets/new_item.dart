@@ -20,11 +20,11 @@ class _NewItemState extends State<NewItem> {
   final _formKey = GlobalKey<FormState>();
   final url = Uri.https(
       'udemy-backend-6a50c-default-rtdb.firebaseio.com', 'shopping-list.json');
-  void saveItem() {
+  void saveItem() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      http.post(
+      final response = await http.post(
         url,
         headers: {'Content-Type': 'appliction/json'},
         body: json.encode(
@@ -35,9 +35,26 @@ class _NewItemState extends State<NewItem> {
           },
         ),
       );
+      // .then((value) => null); // it can also be used alternatively to async and await;
+      // Navigator.of(context).pop(
+      //   GroceryItem(
+      //       id: DateTime.now().toString(),
+      //       name: _enteredName,
+      //       quantity: _enteredQuantity,
+      //       category: _selectedCategory),
+      // );
+      print(response.statusCode);
+      print(response.body);
+      final Map<String, dynamic> resData = json.decode(response.body);
+      // the below code is to ensure that while the http request is going on the widget may not be visible or
+      // has moved to another screen between so at that point of time the context may not be the same as before
+      // so to avoid that the below code is required;
+      if (!context.mounted) {
+        return;
+      }
       Navigator.of(context).pop(
         GroceryItem(
-            id: DateTime.now().toString(),
+            id: resData['name'],
             name: _enteredName,
             quantity: _enteredQuantity,
             category: _selectedCategory),
