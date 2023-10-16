@@ -22,10 +22,23 @@ class _GroceyListState extends State<GroceyList> {
   }
 
   List<GroceryItem> _groceryItems = [];
+  var _isLoading = true;
+  String? _error;
   void _loadItems() async {
+    // final url = Uri.https(
+    //     'udemy-backend-c-default-rtdb.firebaseio.com', 'shopping-list.json');
     final url = Uri.https('udemy-backend-6a50c-default-rtdb.firebaseio.com',
         'shopping-list.json');
     final response = await http.get(url);
+
+    if (response.statusCode >= 400) {
+      // return;
+      setState(() {
+        _error = 'Something went wrong. Please try again later!';
+        _isLoading = false;
+      });
+    }
+
     final Map<String, dynamic> listData = json.decode(response.body);
     final List<GroceryItem> loadedItems = [];
     for (final item in listData.entries) {
@@ -43,6 +56,7 @@ class _GroceyListState extends State<GroceyList> {
     }
     setState(() {
       _groceryItems = loadedItems;
+      _isLoading = false;
     });
   }
 
@@ -63,10 +77,26 @@ class _GroceyListState extends State<GroceyList> {
     }
   }
 
-  void _removeItem(GroceryItem item) {
+  void _removeItem(GroceryItem item) async {
     setState(() {
       _groceryItems.remove(item);
+      const snackbar = SnackBar(
+        content: Text('Deletion successful'),
+      );
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     });
+    final url = Uri.https('udemy-backend-6a50c-default-rtdb.firebaseio.com',
+        'shopping-list/${item.id}.json');
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      setState(() {
+        _groceryItems.add(item);
+        const snackbar = SnackBar(content: Text('Deletion failed'));
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      });
+    }
   }
 
   @override
@@ -78,38 +108,52 @@ class _GroceyListState extends State<GroceyList> {
         style: TextStyle(color: Colors.black, fontSize: 24),
       ),
     );
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Grocery List'),
-        actions: [
-          IconButton(onPressed: _addItem, icon: const Icon(Icons.add_outlined))
-        ],
-      ),
-      body: _groceryItems.isEmpty
-          ? mainContent
-          : ListView.builder(
-              itemCount: _groceryItems.length,
-              itemBuilder: (context, index) {
-                return Dismissible(
-                  onDismissed: (direction) {
-                    // setState(() {
-                    //   _groceryItems.remove(_groceryItems[index]);
-                    // });
-                    _removeItem(_groceryItems[index]);
-                  },
-                  key: ValueKey(_groceryItems[index].id),
-                  child: ListTile(
-                    title: Text(_groceryItems[index].name),
-                    leading: Container(
-                      height: 24,
-                      width: 24,
-                      color: _groceryItems[index].category.color,
-                    ),
-                    trailing: Text(_groceryItems[index].quantity.toString()),
-                  ),
-                );
-              },
+    if (_isLoading) {
+      mainContent = const Center(child: CircularProgressIndicator());
+    }
+    if (_groceryItems.isNotEmpty) {
+      mainContent = ListView.builder(
+        itemCount: _groceryItems.length,
+        itemBuilder: (context, index) {
+          return Dismissible(
+            onDismissed: (direction) {
+              // setState(() {
+              //   _groceryItems.remove(_groceryItems[index]);
+              // });
+              _removeItem(_groceryItems[index]);
+            },
+            key: ValueKey(_groceryItems[index].id),
+            child: ListTile(
+              title: Text(_groceryItems[index].name),
+              leading: Container(
+                height: 24,
+                width: 24,
+                color: _groceryItems[index].category.color,
+              ),
+              trailing: Text(_groceryItems[index].quantity.toString()),
             ),
-    );
+          );
+        },
+      );
+    }
+    if (_error != null) {
+      mainContent = Center(
+        child: Text(
+          _error!,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.black, fontSize: 24),
+        ),
+      );
+    }
+
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Grocery List'),
+          actions: [
+            IconButton(
+                onPressed: _addItem, icon: const Icon(Icons.add_outlined))
+          ],
+        ),
+        body: mainContent);
   }
 }

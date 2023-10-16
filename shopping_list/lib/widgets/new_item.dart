@@ -18,12 +18,15 @@ class _NewItemState extends State<NewItem> {
   var _enteredQuantity = 1;
   var _selectedCategory = categories[Categories.vegetables]!;
   final _formKey = GlobalKey<FormState>();
+  var _isSending = false;
   final url = Uri.https(
       'udemy-backend-6a50c-default-rtdb.firebaseio.com', 'shopping-list.json');
   void saveItem() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-
+      setState(() {
+        _isSending = true;
+      });
       final response = await http.post(
         url,
         headers: {'Content-Type': 'appliction/json'},
@@ -157,12 +160,22 @@ class _NewItemState extends State<NewItem> {
                 children: [
                   TextButton(
                     onPressed: () {
-                      _formKey.currentState!.reset();
+                      _isSending ? null : _formKey.currentState!.reset();
                     },
-                    child: const Text('Reset'),
+                    child: Text(
+                      'Reset',
+                      style: TextStyle(
+                          color: _isSending
+                              ? Colors.grey
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .copyWith()
+                                  .primary),
+                    ),
                   ),
                   ElevatedButton(
-                      onPressed: saveItem, child: const Text('Add Item'))
+                      onPressed: _isSending ? null : saveItem,
+                      child: Text(_isSending ? 'Saving...' : 'Add Item'))
                 ],
               )
             ],
