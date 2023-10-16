@@ -16,7 +16,6 @@ class GroceyList extends StatefulWidget {
 class _GroceyListState extends State<GroceyList> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadItems();
   }
@@ -25,15 +24,12 @@ class _GroceyListState extends State<GroceyList> {
   var _isLoading = true;
   String? _error;
   void _loadItems() async {
-    // final url = Uri.https(
-    //     'udemy-backend-c-default-rtdb.firebaseio.com', 'shopping-list.json');
     final url = Uri.https('udemy-backend-6a50c-default-rtdb.firebaseio.com',
         'shopping-list.json');
     try {
       final response = await http.get(url);
 
       if (response.statusCode >= 400) {
-        // return;
         setState(() {
           _error = 'Something went wrong. Please try again later!';
         });
@@ -64,9 +60,8 @@ class _GroceyListState extends State<GroceyList> {
         _isLoading = false;
       });
     } catch (exception) {
-      print(exception);
+      _error = 'Something went wrong. Please try again later!';
     }
-    _error = 'Something went wrong. Please try again later!';
   }
 
   void _addItem() async {
