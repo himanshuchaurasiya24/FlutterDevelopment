@@ -141,6 +141,8 @@ in flutter riverpod the 'userProvider.notifier' allows the data to change and al
 where as the watch() method listens to ay data changes and rebuild the widget whenever there is any data change;
 
 
+in the background image of circle avatar use fileImage not image.file because the later is a widget where as the former is an imageProvider;
+
 
 
 
