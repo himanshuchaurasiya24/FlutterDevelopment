@@ -55,6 +55,7 @@ class _PlacesListState extends ConsumerState<PlacesList> {
                 .titleMedium!
                 .copyWith(color: Theme.of(context).colorScheme.onBackground),
           ),
+          subtitle: Text(widget.places[index].location.address),
           // trailing: IconButton(
           //     onPressed: () {
           //       _deletePlace(widget.places[index]);

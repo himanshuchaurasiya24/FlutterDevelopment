@@ -6,21 +6,21 @@ import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key});
+  const LocationInput({super.key, required this.onSelectLocation});
+  final void Function(PlaceLocation location) onSelectLocation;
 
   @override
   State<LocationInput> createState() => _LocationInputState();
 }
 
 class _LocationInputState extends State<LocationInput> {
-  double latadr = 0.0;
-  double longadr = 0.0;
+  PlaceLocation? _pickedLocation;
 
   var _isGettingLocation = false;
-
-  var _hasImage = false;
   String get locationImage {
-    return 'https://maps.googleapis.com/maps/api/staticmap?center=$latadr,$longadr&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$latadr,$longadr&key=AIzaSyDicvWG9AvuWShiwGOMwhB5EQ1vg4RETPc';
+    final lat = _pickedLocation!.latitude;
+    final lng = _pickedLocation!.longitude;
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=AIzaSyDicvWG9AvuWShiwGOMwhB5EQ1vg4RETPc';
   }
 
   void _getCurrentLocation() async {
@@ -56,17 +56,16 @@ class _LocationInputState extends State<LocationInput> {
     final response = await http.get(url);
     final resData = json.decode(response.body);
     final address = resData['results'][0]['formatted_address'];
-    latadr = lat;
-    longadr = long;
+
     setState(() {
-      PlaceLocation(
-        latitide: lat,
+      _pickedLocation = PlaceLocation(
+        latitude: lat,
         longitude: long,
         address: address,
       );
-      _hasImage = true;
       _isGettingLocation = false;
     });
+    widget.onSelectLocation(_pickedLocation!);
   }
 
   @override
@@ -80,7 +79,7 @@ class _LocationInputState extends State<LocationInput> {
           .bodyLarge!
           .copyWith(color: Theme.of(context).colorScheme.primary),
     );
-    if (_hasImage) {
+    if (_pickedLocation != null) {
       mainContent = Image.network(
         locationImage,
         fit: BoxFit.cover,
