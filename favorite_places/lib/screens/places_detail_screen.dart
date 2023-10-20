@@ -1,4 +1,5 @@
 import 'package:favorite_places/model/place_model.dart';
+import 'package:favorite_places/screens/map.dart';
 import 'package:flutter/material.dart';
 
 class PlaceDetailsScreen extends StatelessWidget {
@@ -39,8 +40,21 @@ class PlaceDetailsScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  CircleAvatar(
-                      radius: 64, backgroundImage: NetworkImage(locationImage)),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => MapScreen(
+                            location: place.location,
+                            isSelecting: false,
+                          ),
+                        ),
+                      );
+                    },
+                    child: CircleAvatar(
+                        radius: 64,
+                        backgroundImage: NetworkImage(locationImage)),
+                  ),
                   Text(
                     place.location.address,
                     style: TextStyle(
@@ -51,27 +65,30 @@ class PlaceDetailsScreen extends StatelessWidget {
                             .copyWith()
                             .onBackground),
                   ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.location_on_outlined,
-                        color: Colors.white.withOpacity(0.75),
-                      ),
-                      Text(
-                        '${place.location.latitude.toString()},',
-                        style: TextStyle(
-                            color: Colors.white.withOpacity(0.75),
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '${place.location.longitude}',
-                        style: TextStyle(
-                            color: Colors.white.withOpacity(0.75),
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.location_on_outlined,
+                          color: Colors.white.withOpacity(0.75),
+                        ),
+                        Text(
+                          '${place.location.latitude.toString()},',
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.75),
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '${place.location.longitude}',
+                          style: TextStyle(
+                              color: Colors.white.withOpacity(0.75),
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),
