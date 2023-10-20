@@ -45,7 +45,8 @@ class _GroceyListState extends State<GroceyList> {
       for (final item in listData.entries) {
         final category = categories.entries
             .firstWhere(
-                (catItem) => catItem.value.title == item.value['category'])
+              (catItem) => catItem.value.title == item.value['category'],
+            )
             .value;
         loadedItems.add(
           GroceryItem(
@@ -94,12 +95,14 @@ class _GroceyListState extends State<GroceyList> {
         'shopping-list/${item.id}.json');
     final response = await http.delete(url);
     if (response.statusCode >= 400) {
-      setState(() {
-        _groceryItems.add(item);
-        const snackbar = SnackBar(content: Text('Deletion failed'));
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(snackbar);
-      });
+      setState(
+        () {
+          _groceryItems.add(item);
+          const snackbar = SnackBar(content: Text('Deletion failed'));
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        },
+      );
     }
   }
 

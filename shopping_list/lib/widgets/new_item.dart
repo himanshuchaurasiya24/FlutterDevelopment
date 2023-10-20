@@ -29,7 +29,7 @@ class _NewItemState extends State<NewItem> {
       });
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'appliction/json'},
+        headers: {'Content-Type': 'application/json'},
         body: json.encode(
           {
             'name': _enteredName,
@@ -144,9 +144,11 @@ class _NewItemState extends State<NewItem> {
                               ))
                       ],
                       onChanged: (value) {
-                        setState(() {
-                          _selectedCategory = value!;
-                        });
+                        setState(
+                          () {
+                            _selectedCategory = value!;
+                          },
+                        );
                       },
                     ),
                   )
