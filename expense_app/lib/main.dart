@@ -1,7 +1,15 @@
+import 'package:expense_app/models/database_provider.dart';
+import 'package:expense_app/screens/category_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => DatabaseProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -9,6 +17,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: CategoryScreen.name,
+      routes: {
+        CategoryScreen.name: (_) => const CategoryScreen(),
+      },
+      home: const CategoryScreen(),
+    );
   }
 }

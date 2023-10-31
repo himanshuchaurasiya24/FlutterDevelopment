@@ -146,9 +146,15 @@ in the background image of circle avatar use fileImage not image.file because th
 
 
 
+Riverpod
+using ref.read() --> when we want to listen to the data one time only it is recommended but it should be used outside of the build function preferably inside of  sateful eidget because it doesnot notifies to any changes and thus does not triggers rebuild
+where as 
+using ref.watch() --> whenever there is need to rebuild the build method we should use it inside the build method to rebuild a particular widget whenever there is any changes in the data it is recommended to be used inside of a build finction and in statelss widget;
 
+in stateful widget use ref.read() inside of the lifecycle methods like initState() there the ref is already present due to its conversion into comsumerStatefulWidget;
+ref.watch(providerName);
 
-
+use stateProvider to update the value by ref.read(providerName.notifier).update((state)=>newValue);
 
 
 
